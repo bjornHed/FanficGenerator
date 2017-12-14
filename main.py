@@ -1,5 +1,6 @@
 from urllib.request import urlopen
 from os import path
+import json
 
 TEXT_URL = "https://archive.org/stream/Book5TheOrderOfThePhoenix/Book%201%20-%20The%20Philosopher's%20Stone_djvu.txt"
 SAVED_TEXT_PATH = "text.txt"
@@ -19,8 +20,18 @@ def clean(text):
     clean = list(filter(lambda x: not x.startswith("Page"), clean))
     clean = "".join(clean)
     clean = clean.lower()
-    clean = filter(lambda c: not c in "-—\"”“", clean)
+    clean = filter(lambda c: not c in "-—\"”“■•\\/()", clean)
     return "".join(clean)
+
+
+def uniqueChars(text):
+    table = {}
+    for c in text:
+        if c not in table:
+            table[str(c)] = 1
+        else:
+            table[str(c)] += 1
+    return table
 
 
 def doMachineLearning(text):
@@ -35,7 +46,9 @@ def main():
         textfile = open(SAVED_TEXT_PATH, "w+")
         text = clean(text)
         textfile.write(text)
-    doMachineLearning(text)
+    frequencyCount = uniqueChars(text)
+    print(json.dumps(frequencyCount, sort_keys=True, indent=4))
+    print("Unique char count: %d" % len(frequencyCount))
 
 
 if __name__ == "__main__":
