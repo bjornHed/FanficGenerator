@@ -1,4 +1,5 @@
 import numpy
+import sys
 
 from keras.models import Sequential
 from keras.layers import Dense
@@ -47,7 +48,7 @@ def generate_lstm(filename):
 
 def text_generation():
     filename = "weights-improvement-01-3.0053.hdf5"
-    text = open("wonderland.txt").read()
+    text = open("text.txt").read()
     chars = sorted(list(set(text)))
     char_map = dict((c, i) for i, c in enumerate(chars))
     characters = len(text)
@@ -84,7 +85,8 @@ def text_generation():
     # generate characters
     for i in range(1000):
         x = numpy.reshape(pattern, (1, len(pattern), 1))
-        x = x / float(n_vocab)
+        #x = x / float(n_vocab)
+        x = x / float(letters)
         prediction = model.predict(x, verbose=0)
         index = numpy.argmax(prediction)
         result = int_to_char[index]
