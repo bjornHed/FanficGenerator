@@ -1,6 +1,7 @@
 from urllib.request import urlopen
 from os import path
 import json
+import editdistance
 
 TEXT_URL = "https://archive.org/stream/Book5TheOrderOfThePhoenix/Book%201%20-%20The%20Philosopher's%20Stone_djvu.txt"
 SAVED_TEXT_PATH = "text.txt"
